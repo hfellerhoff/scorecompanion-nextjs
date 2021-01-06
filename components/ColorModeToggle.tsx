@@ -12,6 +12,7 @@ const ColorModeToggle = (props: Props) => {
       icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
       aria-label='Toggle color theme'
       onClick={toggleColorMode}
+      variant='ghost'
     />
   );
 };

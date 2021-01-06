@@ -1,22 +1,19 @@
-import { Button, Center } from '@chakra-ui/react';
 import Head from 'next/head';
-import ColorModeToggle from '../components/ColorModeToggle';
+import React from 'react';
+import Link from 'next/link';
+import Layout from '../components/Layout';
 
-export default function Home() {
+interface Props {}
+
+const index = (props: Props) => {
   return (
-    <div>
+    <Layout>
       <Head>
         <title>Score Companion – Find your next piece.</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
-
-      <main>
-        <Center minH='100vh'>
-          <ColorModeToggle />
-        </Center>
-      </main>
-
-      <footer></footer>
-    </div>
+    </Layout>
   );
-}
+};
+
+export default index;
