@@ -19,15 +19,16 @@ import { Card } from './Card';
 interface Props {
   works: (ShortWork | Work)[];
   composer?: Composer;
+  onWorkClick: (work: Work) => void;
 }
 
-const WorkList = ({ works, composer }: Props) => {
+const WorkList = ({ works, composer, onWorkClick }: Props) => {
   const { colorMode } = useColorMode();
 
   return (
     <Stack w='100%'>
       {works.map((work) => (
-        <Card clickable onClick={() => console.log(work.id)}>
+        <Card clickable onClick={() => onWorkClick(work as Work)}>
           <Flex align='center' justify='space-between'>
             <Flex align='center'>
               <Avatar

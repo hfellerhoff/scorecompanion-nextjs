@@ -11,7 +11,7 @@ const Layout = ({ children, addPadding }: Props) => {
   const { colorMode } = useColorMode();
 
   return (
-    <Box minH='100vh' bg={colorMode === 'light' ? 'gray.50' : 'gray.800'}>
+    <Box minH='100vh' bg={colorMode === 'light' ? 'gray.100' : 'gray.800'}>
       <Navbar />
       <Box as='main' p={addPadding ? [2, 4, 8, 16] : 0} position='relative'>
         {children}

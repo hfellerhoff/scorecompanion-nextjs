@@ -2,9 +2,11 @@ import {
   Box,
   Button,
   Center,
+  Flex,
   FormControl,
   FormLabel,
   Grid,
+  Heading,
   Input,
   Select,
   Spinner,
@@ -18,8 +20,10 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaSearch } from 'react-icons/fa';
 import { useQuery } from 'react-query';
+import { Card } from '../components/Card';
 import ColorModeToggle from '../components/ColorModeToggle';
 import Layout from '../components/Layout';
+import SearchSelectedWork from '../components/SearchSelectedWork';
 import WorkList from '../components/WorkList';
 import RandomWork from '../components/WorkList';
 import { API_COMPOSERS_BY_ID, API_WORKS_SEARCH } from '../constants/OpenOpus';
@@ -28,9 +32,10 @@ import { Composer, Epoch, Genre, Work } from '../models/OpenOpus';
 
 export default function SearchPage() {
   const { colorMode } = useColorMode();
+  const router = useRouter();
   const { handleSubmit, errors, register, formState, getValues } = useForm();
   const [fetchEnabled, setFetchEnabled] = useState(false);
-  const router = useRouter();
+  const [selectedWork, setSelectedWork] = useState<Work>();
 
   const getComposer = () => fetch(API_COMPOSERS_BY_ID + router.query.composer);
   const { data: composerResult } = useQuery(
@@ -164,8 +169,17 @@ export default function SearchPage() {
           </form>
         </Stack>
       </Center>
-      <Grid templateColumns='1fr 1fr' mt={28} mb={4}>
-        <Center flexDirection='column' px={4}>
+      <Flex
+        mt={28}
+        mb={4}
+        direction={[
+          'column-reverse',
+          'column-reverse',
+          'column-reverse',
+          'row',
+        ]}
+      >
+        <Center flexDirection='column' flex={1} pl={4} pr={2}>
           {!worksData ? (
             isLoading ? (
               <Spinner />
@@ -176,13 +190,21 @@ export default function SearchPage() {
             <WorkList
               works={worksData.works.slice(0, 50)}
               composer={worksData.composer}
+              onWorkClick={(work) => setSelectedWork(work)}
             />
           )}
         </Center>
-        <Box minH='80vh'>
-          <Center my={32}></Center>
+        <Box flex={1} pr={4} pl={2}>
+          {selectedWork ? (
+            <SearchSelectedWork
+              work={selectedWork}
+              composer={composerData.openopus.composer}
+            />
+          ) : (
+            <></>
+          )}
         </Box>
-      </Grid>
+      </Flex>
     </Layout>
   );
 }
