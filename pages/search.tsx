@@ -134,14 +134,7 @@ export default function SearchPage() {
                 <Select name='epoch' ref={register()} isDisabled>
                   <option value='all'>All Periods</option>
                   {Object.values(Epoch).map((epoch) => (
-                    <option
-                      key={epoch}
-                      selected={
-                        router.query.epoch === epoch || composerData
-                          ? composerData.openopus.composer.epoch
-                          : false
-                      }
-                    >
+                    <option key={epoch} selected={router.query.epoch === epoch}>
                       {epoch}
                     </option>
                   ))}
@@ -179,7 +172,7 @@ export default function SearchPage() {
           'row',
         ]}
       >
-        <Center flexDirection='column' flex={1} pl={4} pr={2}>
+        <Center flexDirection='column' flex={1} pl={4} pr={2} mr='50vw'>
           {!worksData ? (
             isLoading ? (
               <Spinner />
@@ -194,7 +187,7 @@ export default function SearchPage() {
             />
           )}
         </Center>
-        <Box flex={1} pr={4} pl={2}>
+        <Box flex={1} pr={4} pl={2} position='fixed' right='0' width='50vw'>
           {selectedWork ? (
             <SearchSelectedWork
               work={selectedWork}

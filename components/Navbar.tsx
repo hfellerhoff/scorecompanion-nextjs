@@ -47,7 +47,7 @@ const Navbar = (props: Props) => {
             </NextLink>
           </Box>
           <NavbarLink label='Composers' href='/composers' />
-          <NavbarLink label='Works' href='/works' />
+          {/* <NavbarLink label='Works' href='/works' /> */}
           <NavbarLink label='Search' href='/search' />
         </Flex>
         <Flex align='center' justify='flex-end'>
