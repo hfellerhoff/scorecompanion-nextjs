@@ -14,3 +14,7 @@ Score Companion is available at [https://scorecompanion.vercel.app/](https://sco
 Score Companion can be used in two ways:
   1. Navigate to the "Composers" tab, find a composer you are interested in, and click on one of the composer's genres to be taken to a customized search with those parameters.
   2. Navigate to the "Search" tab and enter parameters to find works. (Note: In this iteration of Score Companion, specifying a composer is required)
+
+---
+
+> Note: The logo, which was created by me, was designed prior to this hackathon.
