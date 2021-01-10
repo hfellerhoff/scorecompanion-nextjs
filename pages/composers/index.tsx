@@ -62,9 +62,14 @@ const ComposersPage = (props: Props) => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <Stack>
-        <Flex align='center' justify='space-between' mb={2}>
+        <Flex
+          align='center'
+          justify='space-between'
+          mb={2}
+          direction={['column', 'column', 'row']}
+        >
           <Heading size='lg'>Composers</Heading>
-          <Flex>
+          <Flex mt={[2, 2, 0]}>
             <Menu>
               <MenuButton
                 mr={2}

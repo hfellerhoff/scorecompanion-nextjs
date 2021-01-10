@@ -28,7 +28,13 @@ const WorkList = ({ works, composer, onWorkClick }: Props) => {
   return (
     <Stack w='100%'>
       {works.map((work) => (
-        <Card clickable onClick={() => onWorkClick(work as Work)}>
+        <Card
+          clickable
+          onClick={() => {
+            onWorkClick(work as Work);
+            window.scrollTo(0, 0);
+          }}
+        >
           <Flex align='center' justify='space-between'>
             <Flex align='center'>
               <Avatar

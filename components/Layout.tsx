@@ -13,7 +13,7 @@ const Layout = ({ children, addPadding }: Props) => {
   return (
     <Box minH='100vh' bg={colorMode === 'light' ? 'gray.100' : 'gray.800'}>
       <Navbar />
-      <Box as='main' p={addPadding ? [2, 4, 8, 16] : 0} position='relative'>
+      <Box as='main' p={addPadding ? [4, 4, 8, 16] : 0} position='relative'>
         {children}
       </Box>
       <footer></footer>

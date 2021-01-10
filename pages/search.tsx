@@ -18,7 +18,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FaSearch } from 'react-icons/fa';
+import { FaCaretDown, FaCaretUp, FaSearch } from 'react-icons/fa';
 import { useQuery } from 'react-query';
 import { Card } from '../components/Card';
 import ColorModeToggle from '../components/ColorModeToggle';
@@ -36,6 +36,7 @@ export default function SearchPage() {
   const { handleSubmit, errors, register, formState, getValues } = useForm();
   const [fetchEnabled, setFetchEnabled] = useState(false);
   const [selectedWork, setSelectedWork] = useState<Work>();
+  const [extendSearch, setExtendSearch] = useState(true);
 
   const getComposer = () => fetch(API_COMPOSERS_BY_ID + router.query.composer);
   const { data: composerResult } = useQuery(
@@ -53,14 +54,15 @@ export default function SearchPage() {
   } = useQueryData(composerResult);
 
   let values = getValues();
-  const getWorks = () =>
-    fetch(
+  const getWorks = () => {
+    return fetch(
       API_WORKS_SEARCH +
         '?' +
         Object.keys(values)
           .map((key) => `${key}=${values[key]}`)
           .join('&')
     );
+  };
   const { data: worksResult, isLoading } = useQuery(
     `get-works-${values.title}-${values.composer}-${values.epoch}-${values.genre}`,
     getWorks,
@@ -82,6 +84,10 @@ export default function SearchPage() {
     }
   }, [formState]);
 
+  useEffect(() => {
+    if (worksData) setExtendSearch(false);
+  }, [worksData]);
+
   function onSubmit(values) {
     if (values.composer) {
       setFetchEnabled(false);
@@ -100,14 +106,35 @@ export default function SearchPage() {
         top={12}
         w='100vw'
         px={4}
-        py={8}
+        py={[4, 4, 4, 8]}
         bg={colorMode === 'light' ? 'white' : 'gray.700'}
         boxShadow='0px 3px 6px 0px rgba(0, 0, 0, 0.18)'
         zIndex='docked'
       >
         <Stack w='100%'>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Grid gap={2} gridTemplateColumns='3fr 2fr 1fr 1fr 1fr'>
+            <Center
+              onClick={() => setExtendSearch(true)}
+              display={[
+                extendSearch ? 'none' : 'flex',
+                extendSearch ? 'none' : 'flex',
+                extendSearch ? 'none' : 'flex',
+                'none',
+              ]}
+            >
+              <Text mr={1}>Expand Search</Text>
+              <FaCaretDown />
+            </Center>
+            <Grid
+              gap={2}
+              gridTemplateColumns={['1fr', '1fr', '1fr', '3fr 2fr 1fr 1fr 1fr']}
+              display={[
+                extendSearch ? 'grid' : 'none',
+                extendSearch ? 'grid' : 'none',
+                extendSearch ? 'grid' : 'none',
+                'grid',
+              ]}
+            >
               <FormControl isInvalid={errors.title} htmlFor='title'>
                 <Input
                   name='title'
@@ -159,11 +186,24 @@ export default function SearchPage() {
                 Search
               </Button>
             </Grid>
+            <Center
+              mt={4}
+              onClick={() => setExtendSearch(false)}
+              display={[
+                extendSearch ? 'flex' : 'none',
+                extendSearch ? 'flex' : 'none',
+                extendSearch ? 'flex' : 'none',
+                'none',
+              ]}
+            >
+              <Text mr={1}>Hide</Text>
+              <FaCaretUp />
+            </Center>
           </form>
         </Stack>
       </Center>
       <Flex
-        mt={28}
+        mt={[16, 16, 16, 28]}
         mb={4}
         direction={[
           'column-reverse',
@@ -172,12 +212,26 @@ export default function SearchPage() {
           'row',
         ]}
       >
-        <Center flexDirection='column' flex={1} pl={4} pr={2} mr='50vw'>
+        <Center
+          flexDirection='column'
+          flex={1}
+          pl={[4, 4, 4, 4]}
+          pr={[4, 4, 4, 2]}
+          mr={[0, 0, 0, '50vw']}
+        >
           {!worksData ? (
             isLoading ? (
               <Spinner />
             ) : (
-              <Text fontSize='lg'>No piece selected.</Text>
+              <Stack mt={[16, 16, 32]} textAlign='center'>
+                <Heading size='md'>
+                  Enter some search parameters to get started!
+                </Heading>
+                <Text>
+                  Note: In this iteration of Score Companion, specifying a
+                  composer is required.
+                </Text>
+              </Stack>
             )
           ) : (
             <WorkList
@@ -187,14 +241,26 @@ export default function SearchPage() {
             />
           )}
         </Center>
-        <Box flex={1} pr={4} pl={2} position='fixed' right='0' width='50vw'>
+        <Box
+          flex={1}
+          pr={4}
+          pl={[4, 4, 4, 2]}
+          mb={[4, 4, 4, 0]}
+          position={['static', 'static', 'static', 'fixed']}
+          right='0'
+          width={['100%', '100%', '100%', '50vw']}
+        >
           {selectedWork ? (
             <SearchSelectedWork
               work={selectedWork}
-              composer={composerData.openopus.composer}
+              composer={
+                composerData ? composerData.openopus.composer : undefined
+              }
             />
           ) : (
-            <></>
+            <Card>
+              <Text>No work selected.</Text>
+            </Card>
           )}
         </Box>
       </Flex>

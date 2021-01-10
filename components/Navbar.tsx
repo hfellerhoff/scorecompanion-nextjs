@@ -13,6 +13,7 @@ import ColorModeToggle from './ColorModeToggle';
 import NextLink from 'next/link';
 import NavbarLink from './NavbarLink';
 import { useRouter } from 'next/router';
+import Logo from './Logo';
 
 interface Props {}
 
@@ -27,7 +28,7 @@ const Navbar = (props: Props) => {
         as='header'
         align='center'
         justify='space-between'
-        px={[2, 2, 4, 8]}
+        px={[4, 4, 4, 8]}
         h={16}
         boxShadow={
           router.pathname.includes('search')
@@ -43,7 +44,15 @@ const Navbar = (props: Props) => {
         <Flex align='center'>
           <Box cursor='pointer'>
             <NextLink href='/'>
-              <Image src='/images/logo.png' w={7} mr={8}></Image>
+              <Image
+                src={
+                  colorMode === 'light'
+                    ? '/images/logo.png'
+                    : '/images/logo--dark.png'
+                }
+                w={7}
+                mr={8}
+              ></Image>
             </NextLink>
           </Box>
           <NavbarLink label='Composers' href='/composers' />

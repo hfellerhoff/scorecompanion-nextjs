@@ -15,7 +15,7 @@ import { Card } from './Card';
 
 interface Props {
   work: Work;
-  composer: Composer;
+  composer?: Composer;
 }
 
 const SearchSelectedWork = ({ work, composer }: Props) => {
@@ -27,14 +27,16 @@ const SearchSelectedWork = ({ work, composer }: Props) => {
             <Flex align='center'>
               <Avatar
                 size='xs'
-                name={composer.complete_name}
+                name={composer ? composer.complete_name : 'Composer'}
                 src={composer ? composer.portrait : ''}
               />
-              <Text ml={2}>{composer.complete_name}</Text>
+              <Text ml={2}>
+                {composer ? composer.complete_name : 'Composer'}
+              </Text>
             </Flex>
             <Flex>
               <Tag>{work.genre}</Tag>
-              <Tag ml={2}>{composer.epoch}</Tag>
+              <Tag ml={2}>{composer ? composer.epoch : 'Unknown Period'}</Tag>
             </Flex>
           </Flex>
           <Heading size='md'>{work.title}</Heading>
@@ -45,7 +47,7 @@ const SearchSelectedWork = ({ work, composer }: Props) => {
           <Flex>
             <Link
               href={`https://www.youtube.com/results?search_query=${encodeURIComponent(
-                composer.complete_name
+                composer ? composer.complete_name : ''
               )} ${encodeURIComponent(work.title)}`}
               isExternal
             >
@@ -55,7 +57,7 @@ const SearchSelectedWork = ({ work, composer }: Props) => {
             </Link>
             <Link
               href={`https://open.spotify.com/search/${encodeURIComponent(
-                composer.complete_name
+                composer ? composer.complete_name : ''
               )} ${encodeURIComponent(work.title)}`}
               isExternal
               ml={2}
@@ -71,7 +73,7 @@ const SearchSelectedWork = ({ work, composer }: Props) => {
           <Flex>
             <Link
               href={`https://www.google.com/search?q=site:imslp.org+${encodeURIComponent(
-                composer.name
+                composer ? composer.complete_name : ''
               )} ${encodeURIComponent(work.title)}`}
               isExternal
             >
