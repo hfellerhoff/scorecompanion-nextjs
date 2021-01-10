@@ -13,7 +13,14 @@ const HomePage = (props: Props) => {
         <title>Score Companion – Find your next piece.</title>
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      <Stack spacing={4} align='center' justify='center' minH='80vh'>
+      <Stack
+        spacing={4}
+        align='center'
+        justify='center'
+        minH='80vh'
+        px={4}
+        textAlign='center'
+      >
         <Heading>Score Companion</Heading>
         <Text mt={2}>Made for Don't Panic! CS Hackathon, January 2020</Text>
         <Flex>

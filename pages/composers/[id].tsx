@@ -66,46 +66,70 @@ const ComposerPage = (props: Props) => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       {!data ? (
-        <Center>
+        <Center minH='50vh'>
           <Spinner />
         </Center>
       ) : (
         <Card p={[4, 4, 8, 8]}>
-          <Stack spacing={8}>
+          <Stack spacing={[8, 8, 16]}>
             <Flex align='center' justify='space-between'>
               <Head>
                 <title>
                   {data.openopus.composer.complete_name} | Score Companion
                 </title>
               </Head>
-              <Flex>
+              <Stack
+                align='center'
+                justify='space-between'
+                width='100%'
+                mt={[4, 4, 2]}
+                spacing={4}
+              >
                 <Avatar
                   src={data.openopus.composer.portrait}
                   name={data.openopus.composer.complete_name}
+                  display={['flex', 'flex', 'none']}
+                  size='lg'
                 />
-                <Box ml={4}>
-                  <Heading size='md'>{data.openopus.composer.name}</Heading>
-                  <Text>{data.openopus.composer.complete_name}</Text>
-                </Box>
-              </Flex>
-              <Stack align='flex-end'>
-                <Heading size='sm'>
-                  {getYearFromDate(data.openopus.composer.birth)} –{' '}
-                  {data.openopus.composer.death
-                    ? getYearFromDate(data.openopus.composer.death)
-                    : 'Present'}
-                </Heading>
-                <Tag>{data.openopus.composer.epoch}</Tag>
+                <Avatar
+                  src={data.openopus.composer.portrait}
+                  name={data.openopus.composer.complete_name}
+                  display={['none', 'none', 'flex']}
+                  size='xl'
+                />
+                <Stack flex={1} ml={4} spacing={1}>
+                  <Flex align='center' justify='space-between'>
+                    <Heading size='lg'>
+                      {data.openopus.composer.complete_name}
+                    </Heading>
+                  </Flex>
+                  <Flex
+                    // align={['flex-start', 'flex-start', 'center']}
+                    align='center'
+                    justify='center'
+                    // direction={['column', 'column', 'row']}
+                  >
+                    <Heading size='sm'>
+                      {getYearFromDate(data.openopus.composer.birth)} –{' '}
+                      {data.openopus.composer.death
+                        ? getYearFromDate(data.openopus.composer.death)
+                        : 'Present'}
+                    </Heading>
+                    <Tag ml={4}>{data.openopus.composer.epoch}</Tag>
+                  </Flex>
+                </Stack>
               </Stack>
             </Flex>
             <Grid
-              gridTemplateColumns={['1fr', '1fr', '3fr 1fr', '3fr 2fr']}
-              gap={8}
+              gridTemplateColumns={['1fr', '1fr', '1fr 14rem']}
+              gap={[8, 8, 16]}
             >
-              <Stack spacing={3}>
+              <Stack spacing={3} maxW={700}>
                 <Heading size='md'>About</Heading>
                 {data.wikipedia.extract.map((paragraph) => (
-                  <Text fontSize='md'>{paragraph}</Text>
+                  <Text fontSize='md' lineHeight={1.6}>
+                    {paragraph}
+                  </Text>
                 ))}
                 <Link
                   isExternal

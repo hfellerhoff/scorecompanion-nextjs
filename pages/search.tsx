@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Center,
@@ -63,7 +65,7 @@ export default function SearchPage() {
           .join('&')
     );
   };
-  const { data: worksResult, isLoading } = useQuery(
+  const { data: worksResult, isLoading, isError, error } = useQuery(
     `get-works-${values.title}-${values.composer}-${values.epoch}-${values.genre}`,
     getWorks,
     {
@@ -212,57 +214,74 @@ export default function SearchPage() {
           'row',
         ]}
       >
-        <Center
-          flexDirection='column'
-          flex={1}
-          pl={[4, 4, 4, 4]}
-          pr={[4, 4, 4, 2]}
-          mr={[0, 0, 0, '50vw']}
-        >
-          {!worksData ? (
-            isLoading ? (
-              <Spinner />
-            ) : (
-              <Stack mt={[16, 16, 32]} textAlign='center'>
-                <Heading size='md'>
-                  Enter some search parameters to get started!
-                </Heading>
-                <Text>
-                  Note: In this iteration of Score Companion, specifying a
-                  composer is required.
-                </Text>
-              </Stack>
-            )
-          ) : (
-            <WorkList
-              works={worksData.works.slice(0, 50)}
-              composer={worksData.composer}
-              onWorkClick={(work) => setSelectedWork(work)}
-            />
-          )}
-        </Center>
-        <Box
-          flex={1}
-          pr={4}
-          pl={[4, 4, 4, 2]}
-          mb={[4, 4, 4, 0]}
-          position={['static', 'static', 'static', 'fixed']}
-          right='0'
-          width={['100%', '100%', '100%', '50vw']}
-        >
-          {selectedWork ? (
-            <SearchSelectedWork
-              work={selectedWork}
-              composer={
-                composerData ? composerData.openopus.composer : undefined
-              }
-            />
-          ) : (
-            <Card>
-              <Text>No work selected.</Text>
-            </Card>
-          )}
-        </Box>
+        {isError ? (
+          <Alert>
+            <AlertIcon />
+            Error
+          </Alert>
+        ) : (
+          <>
+            <Center
+              flexDirection='column'
+              flex={1}
+              pl={[4, 4, 4, 4]}
+              pr={[4, 4, 4, 2]}
+              mr={[0, 0, 0, '50vw']}
+            >
+              {!worksData ? (
+                isLoading ? (
+                  <Spinner />
+                ) : (
+                  <Alert variant='left-accent'>
+                    <AlertIcon ml={2} />
+                    <Stack ml={2}>
+                      <Text lineHeight={1.3}>
+                        Enter some search parameters to get started!
+                      </Text>
+                      <Text fontSize='sm' lineHeight={1.2}>
+                        Note: In this iteration of Score Companion, specifying a
+                        composer is required.
+                      </Text>
+                    </Stack>
+                  </Alert>
+                )
+              ) : worksData.works ? (
+                <WorkList
+                  works={worksData.works.slice(0, 50)}
+                  composer={worksData.composer}
+                  onWorkClick={(work) => setSelectedWork(work)}
+                />
+              ) : (
+                <Alert status='error' variant='left-accent'>
+                  <AlertIcon /> Something went wrong. Try again, or try some
+                  different search parameters.
+                </Alert>
+              )}
+            </Center>
+            <Box
+              flex={1}
+              pr={4}
+              pl={[4, 4, 4, 2]}
+              mb={[4, 4, 4, 0]}
+              position={['static', 'static', 'static', 'fixed']}
+              right='0'
+              width={['100%', '100%', '100%', '50vw']}
+            >
+              {selectedWork ? (
+                <SearchSelectedWork
+                  work={selectedWork}
+                  composer={
+                    composerData ? composerData.openopus.composer : undefined
+                  }
+                />
+              ) : (
+                <Card>
+                  <Text>No work selected.</Text>
+                </Card>
+              )}
+            </Box>
+          </>
+        )}
       </Flex>
     </Layout>
   );

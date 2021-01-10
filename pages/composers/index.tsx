@@ -127,25 +127,29 @@ const ComposersPage = (props: Props) => {
             .map((composer) => (
               <Card key={composer.id} clickable>
                 <NextLink href={`/composers/${composer.id}`}>
-                  <Flex align='center' justify='space-between'>
-                    <Flex>
-                      <Avatar
-                        src={composer.portrait}
-                        name={composer.complete_name}
-                      />
-                      <Box ml={4}>
+                  <Flex align='center' justify='space-between' width='100%'>
+                    <Avatar
+                      src={composer.portrait}
+                      name={composer.complete_name}
+                    />
+                    <Stack flex={1} ml={4} spacing={[0, 0, 1]}>
+                      <Flex align='center' justify='space-between'>
                         <Heading size='md'>{composer.name}</Heading>
+                        <Heading size='sm'>
+                          {getYearFromDate(composer.birth)} –{' '}
+                          {composer.death
+                            ? getYearFromDate(composer.death)
+                            : 'Present'}
+                        </Heading>
+                      </Flex>
+                      <Flex
+                        align={['flex-start', 'flex-start', 'center']}
+                        justify='space-between'
+                        direction={['column', 'column', 'row']}
+                      >
                         <Text>{composer.complete_name}</Text>
-                      </Box>
-                    </Flex>
-                    <Stack align='flex-end'>
-                      <Heading size='sm'>
-                        {getYearFromDate(composer.birth)} –{' '}
-                        {composer.death
-                          ? getYearFromDate(composer.death)
-                          : 'Present'}
-                      </Heading>
-                      <Tag>{composer.epoch}</Tag>
+                        <Tag mt={[1, 1, 0]}>{composer.epoch}</Tag>
+                      </Flex>
                     </Stack>
                   </Flex>
                 </NextLink>
