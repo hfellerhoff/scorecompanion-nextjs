@@ -97,18 +97,13 @@ const ComposerPage = (props: Props) => {
                   display={['none', 'none', 'flex']}
                   size='xl'
                 />
-                <Stack flex={1} ml={4} spacing={1}>
+                <Stack flex={1} ml={4} spacing={1} width='100%' align='center'>
                   <Flex align='center' justify='space-between'>
-                    <Heading size='lg'>
+                    <Heading size='lg' textAlign='center'>
                       {data.openopus.composer.complete_name}
                     </Heading>
                   </Flex>
-                  <Flex
-                    // align={['flex-start', 'flex-start', 'center']}
-                    align='center'
-                    justify='center'
-                    // direction={['column', 'column', 'row']}
-                  >
+                  <Flex align='center' justify='center'>
                     <Heading size='sm'>
                       {getYearFromDate(data.openopus.composer.birth)} –{' '}
                       {data.openopus.composer.death
